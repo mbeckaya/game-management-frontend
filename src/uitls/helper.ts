@@ -1,0 +1,1 @@
+export const boolToYesNo = (value: boolean) => value ? 'Yes' : 'No';
