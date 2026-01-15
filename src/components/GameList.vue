@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { boolToYesNo } from '@/uitls/helper';
 import { useGameStore } from '@/stores/games';
-import LoadingState from '@/components/LoadingState.vue';
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import AlertMessage from '@/components/AlertMessage.vue';
 
 const gamesStore = useGameStore();
@@ -22,7 +22,7 @@ fetchGames();
     {{ errorMessage }}
   </AlertMessage>
 
-  <LoadingState v-else-if="isLoading" />
+  <LoadingSpinner v-else-if="isLoading" />
 
   <p v-else-if="!hasGames">
     No games found
