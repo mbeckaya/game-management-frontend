@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DefaultTemplate from '@/components/DefaultTemplate.vue';
-import GameList from '@/components/GameList.vue';
+import DefaultTemplate from '@/components/template/DefaultTemplate.vue';
+import GameList from '@/components/game/GameList.vue';
 </script>
 
 <template>

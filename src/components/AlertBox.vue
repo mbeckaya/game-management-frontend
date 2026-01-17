@@ -9,7 +9,7 @@ type Props = {
 withDefaults(defineProps<Props>(), {
   type: 'success',
   showIcon: true,
-})
+});
 </script>
 
 <template>
