@@ -5,9 +5,11 @@
   import { boolToYesNo } from '@/utils/helper'
   import type { Game } from '@/types/game'
   import LoadingSpinner from '@/components/LoadingSpinner.vue'
+  import AlertMessage from '@/components/AlertMessage.vue'
 
   const games = ref<Game[]>([])
   const isLoading = ref(false)
+  const error = ref('')
 
   const hasGames = computed(() => games.value.length > 0)
 
@@ -18,6 +20,7 @@
       games.value = response.data
     } catch (err) {
       console.error(err)
+      error.value = 'Failed to fetch games'
     } finally {
       isLoading.value = false
     }
@@ -27,13 +30,13 @@
 </script>
 
 <template>
-  <LoadingSpinner
-      v-if="isLoading"
-      size="xl"
-      class="my-2"
-  />
+  <LoadingSpinner v-if="isLoading" size="xl" class="my-2" />
 
-  <p v-if="!hasGames">No games found</p>
+  <AlertMessage v-else-if="error" type="error">
+    {{ error }}
+  </AlertMessage>
+
+  <p v-else-if="!hasGames">No games found</p>
   <section v-else class="overflow-x-auto">
     <table class="table table-zebra">
       <thead>
