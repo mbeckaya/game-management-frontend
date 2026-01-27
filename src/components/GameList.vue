@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
+  import { RouterLink } from 'vue-router'
   import axios from 'axios'
   import { API_URL } from '@/utils/constants'
   import { boolToYesNo } from '@/utils/helper'
@@ -48,6 +49,7 @@
         <th>Genre</th>
         <th>Publisher</th>
         <th>Release Year</th>
+        <th>Action</th>
       </tr>
       </thead>
       <tbody>
@@ -59,6 +61,11 @@
         <td>{{ game.genre }}</td>
         <td>{{ game.publisher }}</td>
         <td>{{ game.release }}</td>
+        <td>
+          <RouterLink :to="{ name: 'game-detail', params: { id: game.id } }" class="link">
+            Details
+          </RouterLink>
+        </td>
       </tr>
       </tbody>
     </table>
