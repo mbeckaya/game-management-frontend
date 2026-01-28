@@ -1,9 +1,8 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import axios from 'axios'
+  import { ref, onMounted } from 'vue'
   import type { Game } from '@/types/game'
-  import { API_URL } from '@/utils/constants'
   import { boolToYesNo } from '@/utils/helper'
+  import { useFetch } from '@/composables/useFetch'
   import LoadingSpinner from '@/components/LoadingSpinner.vue'
   import AlertMessage from '@/components/AlertMessage.vue'
 
@@ -12,23 +11,11 @@
   }>()
 
   const game = ref<Game>()
-  const isLoading = ref(false)
-  const error = ref('')
+  const { isLoading, error, fetchData } = useFetch()
 
-  const fetchGame = async (id: string) => {
-    try {
-      isLoading.value = true
-      const response = await axios.get(`${API_URL}/api/v1/games/${id}`)
-      game.value = response.data
-    } catch (err) {
-      console.log(err)
-      error.value = `Failed to fetch game with id ${id}`
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  fetchGame(props.id)
+  onMounted(async () => {
+    game.value = await fetchData(`/api/v1/games/${props.id}`)
+  })
 </script>
 
 <template>

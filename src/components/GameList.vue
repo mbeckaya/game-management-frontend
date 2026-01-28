@@ -1,33 +1,20 @@
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
-  import axios from 'axios'
-  import { API_URL } from '@/utils/constants'
   import { boolToYesNo } from '@/utils/helper'
   import type { Game } from '@/types/game'
+  import { useFetch } from '@/composables/useFetch'
   import LoadingSpinner from '@/components/LoadingSpinner.vue'
   import AlertMessage from '@/components/AlertMessage.vue'
 
   const games = ref<Game[]>([])
-  const isLoading = ref(false)
-  const error = ref('')
+  const { isLoading, error, fetchData } = useFetch()
 
   const hasGames = computed(() => games.value.length > 0)
 
-  const fetchGames = async () => {
-    try {
-      isLoading.value = true
-      const response = await axios.get(`${API_URL}/api/v1/games`)
-      games.value = response.data
-    } catch (err) {
-      console.error(err)
-      error.value = 'Failed to fetch games'
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  fetchGames()
+  onMounted(async () => {
+    games.value = await fetchData('/api/v1/games')
+  })
 </script>
 
 <template>
